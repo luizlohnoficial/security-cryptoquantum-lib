@@ -1,3 +1,4 @@
+
 """Módulo de demonstração de criptografia pós-quântica (PQC).
 
 Este arquivo apresenta uma implementação extremamente simplificada apenas para
@@ -7,49 +8,45 @@ Embora faça referência às recomendações do NIST para algoritmos pós-quânt
 educacional.
 """
 
-import secrets
+from . import entanglement
+from .simulator import QuantumSimulator
 
-# Tamanho da chave em bytes. Em algoritmos reais, esse valor depende do método
-# criptográfico adotado e pode ser significativamente maior.
-KEY_SIZE = 32
+# Tamanho da chave em bytes definido pelo módulo de entrelaçamento.
+KEY_SIZE = entanglement.KEY_SIZE
 
 
 def generate_keypair() -> tuple[bytes, bytes]:
-    """Gera um par de chaves simétricas para demonstração.
+    """Gera um par de chaves utilizando entrelaçamento quântico.
 
-    Nesta implementação simplificada, tanto a chave "pública" quanto a
-    "privada" são idênticas, uma vez que usamos uma cifra simétrica. Em
-    algoritmos pós-quânticos reais, as chaves pública e privada são diferentes e
-    seguem formatos definidos pelo NIST para cada esquema.
+    Este método delega a criação das chaves ao módulo :mod:`entanglement`, que
+    simula a geração de duas chaves idênticas a partir de pares Bell. As chaves
+    resultantes possuem tamanho :data:`KEY_SIZE` e devem ser empregadas em todas
+    as operações de encriptação e decriptação.
     """
-    key = secrets.token_bytes(KEY_SIZE)
-    return key, key
+    return entanglement.generate_keypair()
 
 
 def encrypt(key: bytes, plaintext: bytes) -> bytes:
-    """Encripta os dados usando uma operação XOR simples.
+    """Encripta os dados utilizando o simulador qu\u00e2ntico.
+
+    Esta fun\u00e7\u00e3o delega a opera\u00e7\u00e3o de cifragem ao
+    :class:`~cryptoquantum.simulator.QuantumSimulator`, garantindo que o
+    processo recorra \u00e0 computa\u00e7\u00e3o qu\u00e2ntica representada no
+    projeto.
 
     Args:
-        key: chave de encriptação gerada por :func:`generate_keypair`.
+        key: chave de encripta\u00e7\u00e3o gerada por :func:`generate_keypair`.
         plaintext: dados a serem protegidos.
 
     Returns:
-        bytes: resultado da operação de encriptação.
+        bytes: resultado da cifragem.
     """
-    return bytes(b ^ key[i % KEY_SIZE] for i, b in enumerate(plaintext))
+    sim = QuantumSimulator()
+    return sim.encrypt(key, plaintext)
 
 
 def decrypt(key: bytes, ciphertext: bytes) -> bytes:
-    """Decripta os dados revertendo a operação de :func:`encrypt`.
+    """Decripta os dados utilizando o simulador qu\u00e2ntico."""
 
-    Como a cifra utiliza XOR, a encriptação e a decriptação são operações
-    idênticas. Mantemos funções separadas para tornar o fluxo mais didático.
-
-    Args:
-        key: mesma chave utilizada na encriptação.
-        ciphertext: dados cifrados.
-
-    Returns:
-        bytes: texto plano original.
-    """
-    return bytes(b ^ key[i % KEY_SIZE] for i, b in enumerate(ciphertext))
+    sim = QuantumSimulator()
+    return sim.decrypt(key, ciphertext)
