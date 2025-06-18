@@ -24,7 +24,9 @@ tests/
 
 ## Exemplos de uso
 
-Um exemplo rápido de como utilizar o módulo `pqc`:
+Um exemplo rápido de como utilizar o módulo `pqc` com chaves
+geradas por entrelaçamento quântico e cifragem realizada pelo
+simulador quântico:
 
 ```python
 from cryptoquantum import pqc
