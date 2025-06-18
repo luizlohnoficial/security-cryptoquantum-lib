@@ -39,6 +39,10 @@ class Qubit:
         self.alpha, self.beta = a, b
         self.normalize()
 
+    def apply_x(self) -> None:
+        """Aplica a porta Pauli-X (bit flip)."""
+        self.alpha, self.beta = self.beta, self.alpha
+
     def measure(self) -> int:
         """Mede o qubit e colapsa o estado retornando 0 ou 1."""
         p0 = abs(self.alpha) ** 2
