@@ -15,9 +15,11 @@ cryptoquantum/
     __init__.py       # Descrição do pacote e importação do módulo pqc
     pqc.py            # Implementação de demonstração
     qubit.py          # Classe Qubit conceitual
+    entanglement.py   # Funções de entrelaçamento e geração de chaves
 
 tests/
     test_pqc.py       # Testes unitários
+    test_entanglement.py  # Testes de entrelaçamento
 ```
 
 ## Exemplos de uso
@@ -49,6 +51,16 @@ q = Qubit()
 q.apply_hadamard()     # cria superposição
 resultado = q.measure()  # colapsa para 0 ou 1
 print(resultado)
+```
+
+Também é possível gerar chaves idênticas a partir de um par Bell
+utilizando o módulo `entanglement`:
+
+```python
+from cryptoquantum.entanglement import generate_keypair
+
+alice_key, bob_key = generate_keypair()
+print(alice_key == bob_key)  # sempre True
 ```
 
 Lembre-se de que essa implementação é apenas educativa e não deve ser usada em produção. Consulte as publicações do NIST para diretrizes oficiais e algoritmos recomendados.
