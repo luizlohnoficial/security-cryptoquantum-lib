@@ -4,6 +4,7 @@ import sys
 # Permite importar o pacote diretamente do diretório pai durante os testes
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
+import pytest
 import cryptoquantum.pqc as pqc
 
 
@@ -26,3 +27,17 @@ def test_encrypt_decrypt():
     print("Depois da criptografia: resultado decriptado ->", texto_plano)
 
     assert texto_plano == mensagem
+
+
+def test_encrypt_invalid_key_size():
+    """Certifica que chaves com tamanho incorreto geram erro."""
+    key = b"k" * (pqc.KEY_SIZE - 1)
+    with pytest.raises(ValueError):
+        pqc.encrypt(key, b"fail")
+
+
+def test_decrypt_invalid_key_size():
+    """Certifica que chaves com tamanho incorreto geram erro na decriptação."""
+    key = b"k" * (pqc.KEY_SIZE - 1)
+    with pytest.raises(ValueError):
+        pqc.decrypt(key, b"fail")

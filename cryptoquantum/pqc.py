@@ -36,6 +36,8 @@ def encrypt(key: bytes, plaintext: bytes) -> bytes:
     Returns:
         bytes: resultado da operação de encriptação.
     """
+    if len(key) != KEY_SIZE:
+        raise ValueError(f"Tamanho de chave inválido: esperado {KEY_SIZE} bytes")
     return bytes(b ^ key[i % KEY_SIZE] for i, b in enumerate(plaintext))
 
 
@@ -52,4 +54,6 @@ def decrypt(key: bytes, ciphertext: bytes) -> bytes:
     Returns:
         bytes: texto plano original.
     """
+    if len(key) != KEY_SIZE:
+        raise ValueError(f"Tamanho de chave inválido: esperado {KEY_SIZE} bytes")
     return bytes(b ^ key[i % KEY_SIZE] for i, b in enumerate(ciphertext))
